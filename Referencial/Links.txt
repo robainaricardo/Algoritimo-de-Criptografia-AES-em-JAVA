@@ -1,0 +1,11 @@
+https://pt.wikipedia.org/wiki/Advanced_Encryption_Standard
+
+http://pt.stackoverflow.com/questions/43492/como-funciona-o-algoritmo-de-criptografia-aes
+
+http://criptografiaexplicada.blogspot.com.br/2012/03/aes-explicado.html
+
+http://www.gta.ufrj.br/grad/05_2/aes/
+
+https://pt.wikipedia.org/wiki/Criptografia
+
+treasda
