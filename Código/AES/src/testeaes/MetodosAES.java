@@ -30,6 +30,36 @@ public class MetodosAES {
     0x99, 0x2D, 0x0F, 0xB0, 0x54, 0xBB, 0x16 };
 
     
+    public int  bloco [][] = {{0x01,0x02,0x03,0x04},
+                              {0x05,0x06,0x07,0x08},
+                              {0x09,0x0a,0x0b,0x0c},
+                              {0x0d,0x0e,0x0f,0x1a}};
     
+    //verificar não ta bombando
+    public int [][] ShiftRows(int [][] bloco){
+        int [][] novoBloco = new int [4][4];
+        for(int a = 0; a<4; a++){
+            int b;
+            for(int i = 0; i<4; i++){
+              if(a>3)
+                  b=-1;
+              else
+                  b=a;
+              novoBloco[a][i] = bloco [a][i+b];
+            }
+        }
+        return novoBloco;
+    }
+    
+    //método para imprimir matrz em forma de bloco aes
+    public void printMat(int [][] bloco){
+        for(int a = 0; a < 4; a++){
+            System.out.println();
+            for(int b = 0; b < 4; b++){
+                System.out.printf("%d", bloco[a][b]);
+            }
+            
+        }
+    }
     
 }
