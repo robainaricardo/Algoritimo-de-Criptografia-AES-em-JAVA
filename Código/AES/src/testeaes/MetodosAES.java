@@ -29,26 +29,42 @@ public class MetodosAES {
     0x28, 0xDF, 0x8C, 0xA1, 0x89, 0x0D, 0xBF, 0xE6, 0x42, 0x68, 0x41,
     0x99, 0x2D, 0x0F, 0xB0, 0x54, 0xBB, 0x16 };
 
+    //bloco utilizado para testes
+    public int  bloco [][] = {{0x32,0x88,0x31,0xE0},
+                              {0x43,0x5A,0x31,0x37},
+                              {0xF6,0x30,0x98,0x07},
+                              {0xA8,0x8D,0xA2,0x34}};
     
-    public int  bloco [][] = {{0x01,0x02,0x03,0x04},
-                              {0x05,0x06,0x07,0x08},
-                              {0x09,0x0a,0x0b,0x0c},
-                              {0x0d,0x0e,0x0f,0x1a}};
+    public int  chave [][] = {{0x2B,0x28,0xAB,0x09},
+                              {0x7E,0xAE,0xF7,0xCF},
+                              {0x15,0xD2,0x15,0x4F},
+                              {0x16,0xA6,0x88,0x3C}};
+    
     
     //funcionando
-    public byte[][] ShiftRows(byte[][] stado) {
- 
-    byte[][] aux = new byte[4][4];
-    for (int l = 0; l < 4; l++) {
-        for (int c = 0; c < 4; c++){
-             aux[l][c] = stado [l][(c + l) % 4];
+    public int[][] ShiftRows(int[][] stado) {
+        int[][] aux = new int[4][4];
+        for (int l = 0; l < 4; l++) {
+            for (int c = 0; c < 4; c++){
+                aux[l][c] = stado [l][(c + l) % 4];
+            }
         }
+        return aux;
     }
-    return aux;
+    
+    //Funcionando só que preciso deixae a saida em hexadecimal / ta saindo em decimal
+    public int[][] addRoundKey(int[][] chave, int[][] estado ){
+        int[][] aux = new int[4][4];
+        for (int l = 0; l < 4; l++) {
+            for (int c = 0; c < 4; c++){
+                aux[l][c] = ((chave[l][c]) ^ (estado[l][c]));
+            }
+        }
+        return aux;
     }
     
     //método para imprimir matrz em forma de bloco aes
-    public void printMat(byte [][] bloco){
+    public void printMat(int [][] bloco){
         for(int a = 0; a < 4; a++){
             System.out.println();
             for(int b = 0; b < 4; b++){
@@ -57,5 +73,6 @@ public class MetodosAES {
             
         }
     }
+    
     
 }
