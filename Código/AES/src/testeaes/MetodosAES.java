@@ -28,6 +28,11 @@ public class MetodosAES {
     0x11, 0x69, 0xD9, 0x8E, 0x94, 0x9B, 0x1E, 0x87, 0xE9, 0xCE, 0x55,
     0x28, 0xDF, 0x8C, 0xA1, 0x89, 0x0D, 0xBF, 0xE6, 0x42, 0x68, 0x41,
     0x99, 0x2D, 0x0F, 0xB0, 0x54, 0xBB, 0x16 };
+    
+    private static int [][] matMix = {{02,03,01,01},
+                                      {01,02,03,01},
+                                      {01,01,02,03},
+                                      {03,01,01,02}};
 
     //bloco utilizado para testes
     public int  bloco [][] = {{0x32,0x88,0x31,0xE0},
@@ -41,7 +46,7 @@ public class MetodosAES {
                               {0x16,0xA6,0x88,0x3C}};
     
     
-    //funcionando
+    //funcionando com Byte! :)
     public int[][] ShiftRows(int[][] stado) {
         int[][] aux = new int[4][4];
         for (int l = 0; l < 4; l++) {
@@ -57,7 +62,27 @@ public class MetodosAES {
         int[][] aux = new int[4][4];
         for (int l = 0; l < 4; l++) {
             for (int c = 0; c < 4; c++){
-                aux[l][c] = ((chave[l][c]) ^ (estado[l][c]));
+                aux[l][c] = (byte) ((chave[l][c]) ^ (estado[l][c]));
+            }
+        }
+        return aux;
+    }
+    
+    public int [][] subBytes(int[][] estado){
+        int [][] aux = new int [4][4];
+        for (int l = 0; l < 4; l++) {
+            for (int c = 0; c < 4; c++){
+                aux[l][c] =  (sbox[(estado[l][c] & 0x000000ff)] & 0xff);
+            }
+        }
+        return aux;
+    }
+    
+    public int [][] micColumns(int [][] estado){
+        int [][] aux = new int [4][4];
+        for(int c = 0; c < 4; c++){
+            for(int l = 0; l < 4; l++){
+                aux[l][c] = ((estado[l][0]* matMix[l][0])^(estado[l][1]* matMix[l][1])^(estado[l][2]* matMix[l][2])^(estado[l][3]* matMix[l][3]));
             }
         }
         return aux;

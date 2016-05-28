@@ -12,7 +12,7 @@ public class TesteAES {
                               {0xF6,0x30,0x98,0x07},
                               {0xA8,0x8D,0xA2,0x34}};
     
-    public static int  chave [][] = {{0x2B,0x28,0xAB,0x09},
+    public static int chave [][] = {{0x2B,0x28,0xAB,0x09},
                               {0x7E,0xAE,0xF7,0xCF},
                               {0x15,0xD2,0x15,0x4F},
                               {0x16,0xA6,0x88,0x3C}};
@@ -37,9 +37,19 @@ public class TesteAES {
         System.out.printf("\n-----------------------------------------------------\n");
         novoBloco = met.ShiftRows(bloco);
         met.printMat(novoBloco);
+       
         System.out.printf("\n-----------------------------------------------------\n");
         novoBloco = met.addRoundKey(chave, bloco);
         met.printMat(novoBloco);
+      
+        System.out.printf("\n-----------------------------------------------------\n");
+        novoBloco = met.subBytes(bloco);
+        met.printMat(novoBloco);
+        
+        System.out.printf("\n-----------------------------------------------------\n");
+        novoBloco = met.micColumns(bloco);
+        met.printMat(novoBloco);
+      
         
         
     }
