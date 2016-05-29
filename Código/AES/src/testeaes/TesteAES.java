@@ -20,6 +20,7 @@ public class TesteAES {
     public static int [][] novoBloco = new int [4][4];
     
     public static void main(String[] args) {
+        
         Conversoes conversoes = new Conversoes();
         Scanner scan = new Scanner(System.in);
         String texto,bytes;
@@ -49,7 +50,21 @@ public class TesteAES {
         System.out.printf("\n-----------------------------------------------------\n");
         novoBloco = met.micColumns(bloco);
         met.printMat(novoBloco);
-      
+        
+        System.out.printf("\n-----------------------------------------------------\n");
+        System.out.printf("\n---------------------CIFRA--------------------------------\n");
+        System.out.printf("\n-----------------------------------------------------\n");
+        
+        Cifra cod = new Cifra();
+        System.out.printf("\nBloco ORIGINAL\n\n");
+        met.printMat(bloco);
+        System.out.printf("\nCHAVE ORIGINAL\n\n");
+        met.printMat(chave);
+        System.out.printf("\nNovoBloco ORIGINAL\n\n");
+        met.printMat(novoBloco);
+        novoBloco = cod.Encriptar(bloco, chave);
+        System.out.printf("\n\n\nNOVO BLOCO CIFRADOOO\n\n");
+        met.printMat(novoBloco);
         
         
     }
