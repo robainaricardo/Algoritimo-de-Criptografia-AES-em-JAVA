@@ -1,7 +1,5 @@
 package testeaes;
 
-import java.io.UnsupportedEncodingException;
-
 public class Conversoes {
 
     public byte[] ASCIIparaByteArray(String s, boolean padding) { //static pra não ter que instancia a classe
