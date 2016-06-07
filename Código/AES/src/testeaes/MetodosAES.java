@@ -38,6 +38,15 @@ public class MetodosAES {
                               {0x15,0xD2,0x15,0x4F},
                               {0x16,0xA6,0x88,0x3C}};
     
+    public int [][] ExChave(int [][] chave){
+        int[][] roundKey = new int[4][44];
+        for (int c = 0; c < 4; c++) {
+        //colocar os metodos aqui dentro!!   
+        }
+        return roundKey;
+    }
+    
+    
     
     //funcionando com Byte! :)
     public int[][] ShiftRows(int[][] stado) {
@@ -72,13 +81,22 @@ public class MetodosAES {
         return aux;
     }
     
+    //Testas acontece alguns bugs mas acho que é na operação de multiplicação Gmul
     public int [][] micColumns(int [][] estado){
         int [][] aux = new int [4][4];
-        for(int c = 0; c < 4; c++){
-            for(int l = 0; l < 4; l++){
-                aux[l][c] = ((estado[l][0]* matMix[l][0])^(estado[l][1]* matMix[l][1])^(estado[l][2]* matMix[l][2])^(estado[l][3]* matMix[l][3]));
-            }
-        }
+        for(int c = 0; c < 4; c++){        
+            //https://en.wikipedia.org/wiki/Rijndael_mix_columns
+            aux[0][c] =  (this.GMul(0x02,  estado[0][c]) ^ this.GMul(0x03 , estado[1][c]) ^ this.GMul(0x01 , estado[2][c])^ this.GMul(0x01 , estado[3][c]));
+            aux[1][c] =  (this.GMul(0x01,  estado[0][c]) ^ this.GMul(0x02 , estado[1][c]) ^ this.GMul(0x03 , estado[2][c])^ this.GMul(0x01 , estado[3][c]));
+            aux[2][c] =  (this.GMul(0x01,  estado[0][c]) ^ this.GMul(0x01 , estado[1][c]) ^ this.GMul(0x02 , estado[2][c])^ this.GMul(0x03 , estado[3][c]));
+            aux[3][c] =  (this.GMul(0x03,  estado[0][c]) ^ this.GMul(0x01 , estado[1][c]) ^ this.GMul(0x01 , estado[2][c])^ this.GMul(0x02 , estado[3][c]));
+            /* 
+            a00 = 2*a00 ^ 3*a10 ^ 1*a20 ^ 1*a30
+            a10 = 1*a00 ^ 2*a10 ^ 3*a20 ^ 1*a30
+            a20 = 1*a00 ^ 1*a10 ^ 2*a20 ^ 3*a30
+            a30 = 3*a00 ^ 1*a10 ^ 1*a20 ^ 2*a30
+            */
+         }
         return aux;
     }
     
@@ -103,6 +121,40 @@ public class MetodosAES {
         int a;
         a = (x>>4) & 0x0f;
         return a;
+    }
+    
+    //testar talvez não esteja funcionando corretamente
+    public int GMul(int n, int x) { 
+        int aux = 0;
+        if(n == 1){
+            aux = x;
+        }
+        if(n == 2){
+            aux = (byte) (x<<1);
+        }
+        if(n == 3){
+            aux = (byte) ((byte) (x<<1) ^ x);
+        }
+        
+        if(aux > 255){
+            aux = (byte) (x ^ 0x1B); 
+        }
+        return aux;
+    }
+    
+    //Funcionando!! Testado!
+    public int [][] rotacionaPalavra(int [][] chave){
+        int [][] aux = new int [4][4];
+        //aux = chave;
+        for(int l = 0; l < 4; l++){
+            for(int c = 0; c < 3; c++){
+                aux[l][c] = chave[l][c];
+            } 
+        }
+        for(int l = 0; l < 4; l++){
+           aux[l][3] = chave [(l+1) % 4][3];
+        }
+        return aux;
     }
     
     
