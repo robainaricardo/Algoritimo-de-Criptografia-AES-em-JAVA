@@ -22,10 +22,18 @@ public class MetodosAES {
                                     {0xE1, 0xF8, 0x98, 0x11, 0x69, 0xD9, 0x8E, 0x94, 0x9B, 0x1E, 0x87, 0xE9, 0xCE, 0x55, 0x28, 0xDF},   // E
                                     {0x8C, 0xA1, 0x89, 0x0D, 0xBF, 0xE6, 0x42, 0x68, 0x41, 0x99, 0x2D, 0x0F, 0xB0, 0x54, 0xBB, 0x16} }; // F
     
-    private static int [][] matMix = {{02,03,01,01},
-                                      {01,02,03,01},
-                                      {01,01,02,03},
-                                      {03,01,01,02}};
+    
+    private static int [][] matMix = {{0x02,0x03,0x01,0x01},
+                                      {0x01,0x02,0x03,0x01},
+                                      {0x01,0x01,0x02,0x03},
+                                      {0x03,0x01,0x01,0x02}};
+    
+    //Matriz utilizada na expanção da chave
+    private static int [][] matExpKey = {{0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80,0x1B,0x36},
+                                         {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
+                                         {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},
+                                         {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}};
+    
 
     //bloco utilizado para testes
     public int  bloco [][] = {{0x32,0x88,0x31,0xE0},
@@ -38,10 +46,16 @@ public class MetodosAES {
                               {0x15,0xD2,0x15,0x4F},
                               {0x16,0xA6,0x88,0x3C}};
     
+    
+    //metodo que realiza a expanção da chave e retorna a matriz com a chave expandida!
     public int [][] ExChave(int [][] chave){
         int[][] roundKey = new int[4][44];
+        int[][] aux = new int[4][4];
         for (int c = 0; c < 4; c++) {
-        //colocar os metodos aqui dentro!!   
+            aux = this.rotacionaPalavra(chave);
+            aux = this.subBytesPalavra(chave);
+            //tavez esses metodos não sejam aqui dentro
+            
         }
         return roundKey;
     }
@@ -153,6 +167,21 @@ public class MetodosAES {
         }
         for(int l = 0; l < 4; l++){
            aux[l][3] = chave [(l+1) % 4][3];
+        }
+        return aux;
+    }
+    
+    //FUNCIONANDO!! Testado!
+    public int [][] subBytesPalavra(int [][] chave){
+        int [][] aux = new int [4][4];
+        //aux = chave;
+        for(int l = 0; l < 4; l++){
+            for(int c = 0; c < 3; c++){
+                aux[l][c] = chave[l][c];
+            } 
+        }
+        for(int l = 0; l < 4; l++){
+           aux[l][3] =  (sbox[this.retornaLinha(chave[l][3])][this.retornaColuna(chave[l][3])]);
         }
         return aux;
     }

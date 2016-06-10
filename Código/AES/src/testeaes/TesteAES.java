@@ -80,7 +80,7 @@ public class TesteAES {
         */
         MetodosAES met = new MetodosAES();
         met.printMat(chave);
-        novoBloco = met.rotacionaPalavra(chave);
+        novoBloco = met.subBytesPalavra(chave);
         System.out.printf("\n\n-----------------------------\n\n");
         met.printMat(novoBloco);
     }
