@@ -99,7 +99,7 @@ public class MetodosAES {
     
     
     
-    //funcionando com Byte! :)
+    //funcionando
     public int[][] ShiftRows(int[][] stado) {
         int[][] aux = new int[4][4];
         for (int l = 0; l < 4; l++) {
@@ -115,13 +115,13 @@ public class MetodosAES {
         int[][] aux = new int[4][4];
         for (int l = 0; l < 4; l++) {
             for (int c = 0; c < 4; c++){
-                aux[l][c] = (estado[l][c] ^ chave[l][c]);
+                aux[l][c] =  (estado[l][c] ^ chave[l][c]);
             }
         }
         return aux;
     }
     
-    //Funcionando!!! Testado PRECISA VER O ESTOURO DE REPRESENTAÇão!
+    //Funcionando!!! 
     public int [][] subBytes(int[][] estado){
         int [][] aux = new int [4][4];
         for (int l = 0; l < 4; l++) {
@@ -136,7 +136,7 @@ public class MetodosAES {
     
     
            
-        //dando erro na ultima coluna
+        //Funcionando
 	public int [][] mixColumns (int [][] estado) 
 	{
             int tmp [][] = new int [4][4];

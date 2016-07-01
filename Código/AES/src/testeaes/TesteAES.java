@@ -45,7 +45,7 @@ public class TesteAES {
         met.printMat(chave2);
         System.out.printf("\n\n");
         
-        novoBloco = met.addRoundKey(chave,bloco2);
+        novoBloco = met.addRoundKey(chave2,bloco2);
         System.out.printf("\n\n\nResultado AddRoundKey\n\n");
         met.printMat(novoBloco);
         
@@ -62,6 +62,11 @@ public class TesteAES {
         System.out.printf("\n\n\nResultado MixCoumns\n\n");
         met.printMat(novoBloco);
         
+        int sd, sf, rt;
+        sd = 0x48;
+        sf = 0x23;
+        rt = (byte) (sd ^ sf);
+        System.out.print(Long.toString(rt,16));
         
     }
 
