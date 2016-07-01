@@ -22,7 +22,7 @@ public class Cifra {
         for(int a = 0; a < 10; a++){
             estado = met.subBytes(estado);
             estado = met.ShiftRows(estado);
-            estado = met.micColumns(estado);
+            estado = met.mixColumns(estado);
             estado = met.addRoundKey(chave, estado);
         }
         //-----------------------------------------------------------

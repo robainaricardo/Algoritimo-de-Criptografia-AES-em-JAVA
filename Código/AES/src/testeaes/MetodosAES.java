@@ -46,6 +46,43 @@ public class MetodosAES {
                               {0x15,0xD2,0x15,0x4F},
                               {0x16,0xA6,0x88,0x3C}};
     
+    final static int[] LogTable = {
+		0,   0,  25,   1,  50,   2,  26, 198,  75, 199,  27, 104,  51, 238, 223,   3,
+		100,   4, 224,  14,  52, 141, 129, 239,  76, 113,   8, 200, 248, 105,  28, 193,
+		125, 194,  29, 181, 249, 185,  39, 106,  77, 228, 166, 114, 154, 201,   9, 120,
+		101,  47, 138,   5,  33,  15, 225,  36,  18, 240, 130,  69,  53, 147, 218, 142,
+		150, 143, 219, 189,  54, 208, 206, 148,  19,  92, 210, 241,  64,  70, 131,  56,
+		102, 221, 253,  48, 191,   6, 139,  98, 179,  37, 226, 152,  34, 136, 145,  16,
+		126, 110,  72, 195, 163, 182,  30,  66,  58, 107,  40,  84, 250, 133,  61, 186,
+		43, 121,  10,  21, 155, 159,  94, 202,  78, 212, 172, 229, 243, 115, 167,  87,
+		175,  88, 168,  80, 244, 234, 214, 116,  79, 174, 233, 213, 231, 230, 173, 232,
+		44, 215, 117, 122, 235,  22,  11, 245,  89, 203,  95, 176, 156, 169,  81, 160,
+		127,  12, 246, 111,  23, 196,  73, 236, 216,  67,  31,  45, 164, 118, 123, 183,
+		204, 187,  62,  90, 251,  96, 177, 134,  59,  82, 161, 108, 170,  85,  41, 157,
+		151, 178, 135, 144,  97, 190, 220, 252, 188, 149, 207, 205,  55,  63,  91, 209,
+		83,  57, 132,  60,  65, 162, 109,  71,  20,  42, 158,  93,  86, 242, 211, 171,
+		68,  17, 146, 217,  35,  32,  46, 137, 180, 124, 184,  38, 119, 153, 227, 165,
+		103,  74, 237, 222, 197,  49, 254,  24,  13,  99, 140, 128, 192, 247, 112,   7};
+        
+        
+        final static int[] AlogTable = {
+		1,   3,   5,  15,  17,  51,  85, 255,  26,  46, 114, 150, 161, 248,  19,  53,
+		95, 225,  56,  72, 216, 115, 149, 164, 247,   2,   6,  10,  30,  34, 102, 170,
+		229,  52,  92, 228,  55,  89, 235,  38, 106, 190, 217, 112, 144, 171, 230,  49,
+		83, 245,   4,  12,  20,  60,  68, 204,  79, 209, 104, 184, 211, 110, 178, 205,
+		76, 212, 103, 169, 224,  59,  77, 215,  98, 166, 241,   8,  24,  40, 120, 136,
+		131, 158, 185, 208, 107, 189, 220, 127, 129, 152, 179, 206,  73, 219, 118, 154,
+		181, 196,  87, 249,  16,  48,  80, 240,  11,  29,  39, 105, 187, 214,  97, 163,
+		254,  25,  43, 125, 135, 146, 173, 236,  47, 113, 147, 174, 233,  32,  96, 160,
+		251,  22,  58,  78, 210, 109, 183, 194,  93, 231,  50,  86, 250,  21,  63,  65,
+		195,  94, 226,  61,  71, 201,  64, 192,  91, 237,  44, 116, 156, 191, 218, 117,
+		159, 186, 213, 100, 172, 239,  42, 126, 130, 157, 188, 223, 122, 142, 137, 128,
+		155, 182, 193,  88, 232,  35, 101, 175, 234,  37, 111, 177, 200,  67, 197,  84,
+		252,  31,  33,  99, 165, 244,   7,   9,  27,  45, 119, 153, 176, 203,  70, 202,
+		69, 207,  74, 222, 121, 139, 134, 145, 168, 227,  62,  66, 198,  81, 243,  14,
+		18,  54,  90, 238,  41, 123, 141, 140, 143, 138, 133, 148, 167, 242,  13,  23,
+		57,  75, 221, 124, 132, 151, 162, 253,  28,  36, 108, 180, 199,  82, 246,   1};
+    
     
     //metodo que realiza a expanção da chave e retorna a matriz com a chave expandida!
     public int [][] ExChave(int [][] chave){
@@ -78,7 +115,7 @@ public class MetodosAES {
         int[][] aux = new int[4][4];
         for (int l = 0; l < 4; l++) {
             for (int c = 0; c < 4; c++){
-                aux[l][c] = (byte) ((chave[l][c]) ^ (estado[l][c]));
+                aux[l][c] = (estado[l][c] ^ chave[l][c]);
             }
         }
         return aux;
@@ -95,33 +132,51 @@ public class MetodosAES {
         return aux;
     }
     
-    //Testas acontece alguns bugs mas acho que é na operação de multiplicação Gmul
-    public int [][] micColumns(int [][] estado){
-        int [][] aux = new int [4][4];
-        for(int c = 0; c < 4; c++){        
-            //https://en.wikipedia.org/wiki/Rijndael_mix_columns
-            aux[0][c] =  (this.GMul(0x02,  estado[0][c]) ^ this.GMul(0x03 , estado[1][c]) ^ this.GMul(0x01 , estado[2][c])^ this.GMul(0x01 , estado[3][c]));
-            aux[1][c] =  (this.GMul(0x01,  estado[0][c]) ^ this.GMul(0x02 , estado[1][c]) ^ this.GMul(0x03 , estado[2][c])^ this.GMul(0x01 , estado[3][c]));
-            aux[2][c] =  (this.GMul(0x01,  estado[0][c]) ^ this.GMul(0x01 , estado[1][c]) ^ this.GMul(0x02 , estado[2][c])^ this.GMul(0x03 , estado[3][c]));
-            aux[3][c] =  (this.GMul(0x03,  estado[0][c]) ^ this.GMul(0x01 , estado[1][c]) ^ this.GMul(0x01 , estado[2][c])^ this.GMul(0x02 , estado[3][c]));
-            /* 
-            a00 = 2*a00 ^ 3*a10 ^ 1*a20 ^ 1*a30
-            a10 = 1*a00 ^ 2*a10 ^ 3*a20 ^ 1*a30
-            a20 = 1*a00 ^ 1*a10 ^ 2*a20 ^ 3*a30
-            a30 = 3*a00 ^ 1*a10 ^ 1*a20 ^ 2*a30
-            */
-         }
-        return aux;
-    }
+    
+    
+    
+           
+        //dando erro na ultima coluna
+	public int [][] mixColumns (int [][] estado) 
+	{
+            int tmp [][] = new int [4][4];
+	    
+	   
+	    //copy of cipherTemp[.][c]
+	    for (int c = 0; c < 4; c++){
+                tmp[0][c] = (mul(2,estado[0][c])) ^ (mul(3,estado[1][c])) ^ (mul(1,estado[2][c])) ^ (mul(1,estado[3][c]));
+                tmp[1][c] = (mul(1,estado[0][c])) ^ (mul(2,estado[1][c])) ^ (mul(3,estado[2][c])) ^ (mul(1,estado[3][c]));
+                tmp[2][c] = (mul(1,estado[0][c])) ^ (mul(1,estado[1][c])) ^ (mul(2,estado[2][c])) ^ (mul(3,estado[3][c]));
+                tmp[3][c] = (mul(3,estado[0][c])) ^ (mul(1,estado[1][c])) ^ (mul(1,estado[2][c])) ^ (mul(2,estado[3][c]));
+            }
+            return tmp;
+	}
+	
+        
+	
+	private int mul (int a, int b) 
+	{
+		int inda = (a < 0) ? (a + 256) : a;
+		int indb = (b < 0) ? (b + 256) : b;
+
+		if ( (a != 0) && (b != 0) ) {
+			int index = (LogTable[inda] + LogTable[indb]);
+			int val = (AlogTable[ index % 255 ] );
+			return val;
+		}
+		else
+			return 0;
+	}
+    
     
     //método para imprimir matrz em forma de bloco aes
     public void printMat(int [][] bloco){
         for(int a = 0; a < 4; a++){
-            System.out.println();
             for(int b = 0; b < 4; b++){
-                System.out.printf("%d - ", bloco[a][b]);
+                System.out.print(Long.toString(bloco[a][b],16));
+                System.out.printf(" | ");
             }
-            
+            System.out.printf("\n\n");
         }
     }
     
@@ -135,25 +190,6 @@ public class MetodosAES {
         int a;
         a = (x>>4) & 0x0f;
         return a;
-    }
-    
-    //testar talvez não esteja funcionando corretamente
-    public int GMul(int n, int x) { 
-        int aux = 0;
-        if(n == 1){
-            aux = x;
-        }
-        if(n == 2){
-            aux = (byte) (x<<1);
-        }
-        if(n == 3){
-            aux = (byte) ((byte) (x<<1) ^ x);
-        }
-        
-        if(aux > 255){
-            aux = (byte) (x ^ 0x1B); 
-        }
-        return aux;
     }
     
     //Funcionando!! Testado!

@@ -11,78 +11,58 @@ public class TesteAES {
                                      {0xBF,0xB4,0x41,0x27},
                                      {0x5D,0x52,0x11,0x98},
                                      {0x30,0xAE,0xF1,0xE5}};
-    /*
-    public static int  bloco [][] = {{0x32,0x88,0x31,0xE0},
-                              {0x43,0x5A,0x31,0x37},
-                              {0xF6,0x30,0x98,0x07},
-                              {0xA8,0x8D,0xA2,0x34}}
-    */
+    
+    public static int  bloco3 [][] = {{0x19,0xa0,0x9a,0xe9},
+                                      {0x3d,0xf4,0xc6,0xf8},
+                                      {0xe3,0xe2,0x8d,0x48},
+                                      {0xbe,0x2b,0x2a,0x08}};
+    
+    
+    public static int  bloco2 [][] =  {{0x04,0xe0,0x48,0x28},
+                                       {0x66,0xcb,0xf8,0x06},
+                                       {0x81,0x19,0xd3,0x26},
+                                       {0x7a,0x9a,0x7a,0x4c}};
+            
     public static int chave [][] = {{0x2B,0x28,0xAB,0x09},
-                              {0x7E,0xAE,0xF7,0xCF},
-                              {0x15,0xD2,0x15,0x4F},
-                              {0x16,0xA6,0x88,0x3C}};
+                                    {0x7E,0xAE,0xF7,0xCF},
+                                    {0x15,0xD2,0x15,0x4F},
+                                    {0x16,0xA6,0x88,0x3C}};
+     
+    public static int chave2 [][] = {{0xa0,0x88,0x23,0x2a},
+                                     {0xfa,0x54,0xa3,0x6c},
+                                     {0xfe,0x2c,0x39,0x76},
+                                     {0x17,0xb1,0x39,0x05}};
     
     public static int [][] novoBloco = new int [4][4];
     
     public static void main(String[] args) {
-        /*
-        Conversoes conversoes = new Conversoes();
-        Scanner scan = new Scanner(System.in);
-        String texto,bytes;
-        
-        System.out.println("Digite o text a ser encriptado:");
-        texto = scan.nextLine();
-        bytes = conversoes.converteTextoParaBytes(texto);
-        System.out.println(bytes);
-        
-        texto = conversoes.converteBytesparaTexto(bytes);
-        System.out.println(texto);
         
         MetodosAES met = new MetodosAES();
-        met.printMat(bloco);
-        System.out.printf("\n-----------------------------------------------------\n");
-        novoBloco = met.ShiftRows(bloco);
-        met.printMat(novoBloco);
-       
-        System.out.printf("\n-----------------------------------------------------\n");
-        novoBloco = met.addRoundKey(chave, bloco);
-        met.printMat(novoBloco);
-      
-        System.out.printf("\n-----------------------------------------------------\n");
-        novoBloco = met.subBytes(bloco);
-        met.printMat(novoBloco);
+        System.out.printf("\n\n\nBloco Original\n\n");
+        met.printMat(bloco2);
         
-        System.out.printf("\n-----------------------------------------------------\n");
-        novoBloco = met.micColumns(bloco);
-        met.printMat(novoBloco);
+        System.out.printf("\n\n\nChave Original\n\n");
+        met.printMat(chave2);
+        System.out.printf("\n\n");
         
-        System.out.printf("\n-----------------------------------------------------\n");
-        System.out.printf("\n---------------------CIFRA--------------------------------\n");
-        System.out.printf("\n-----------------------------------------------------\n");
-        
-        Cifra cod = new Cifra();
-        System.out.printf("\nBloco ORIGINAL\n\n");
-        met.printMat(bloco);
-        System.out.printf("\nCHAVE ORIGINAL\n\n");
-        met.printMat(chave);
-        System.out.printf("\nNovoBloco ORIGINAL\n\n");
-        met.printMat(novoBloco);
-        novoBloco = cod.Encriptar(bloco, chave);
-        System.out.printf("\n\n\nNOVO BLOCO CIFRADOOO\n\n");
+        novoBloco = met.addRoundKey(chave,bloco2);
+        System.out.printf("\n\n\nResultado AddRoundKey\n\n");
         met.printMat(novoBloco);
         
         
+        novoBloco = met.subBytes(novoBloco);
+        System.out.printf("\n\nResultado SubBytes\n\n");
+        met.printMat(novoBloco);
         
-        MetodosAES met = new MetodosAES();
-        novoBloco = met.micColumns(bloco);
-        System.out.printf("\n\n\nNOVO BLOCO CIFRADOOO\n\n");
+        novoBloco = met.ShiftRows(novoBloco);
+        System.out.printf("\n\n\nResultado ShiftRows\n\n");
         met.printMat(novoBloco);
-        */
-        MetodosAES met = new MetodosAES();
-        met.printMat(chave);
-        novoBloco = met.subBytesPalavra(chave);
-        System.out.printf("\n\n-----------------------------\n\n");
+        
+        novoBloco = met.mixColumns(novoBloco);
+        System.out.printf("\n\n\nResultado MixCoumns\n\n");
         met.printMat(novoBloco);
+        
+        
     }
 
  
