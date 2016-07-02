@@ -34,39 +34,22 @@ public class TesteAES {
                                      {0x17,0xb1,0x39,0x05}};
     
     public static int [][] novoBloco = new int [4][4];
+    public static int [][] roundKeys = new int [4][44];
     
     public static void main(String[] args) {
         
         MetodosAES met = new MetodosAES();
-        System.out.printf("\n\n\nBloco Original\n\n");
-        met.printMat(bloco2);
         
-        System.out.printf("\n\n\nChave Original\n\n");
-        met.printMat(chave2);
-        System.out.printf("\n\n");
+                
+        roundKeys = met.ExChave(chave);
+        System.out.printf("\n\n\nResultado expChave\n\n");
+        met.printChaves(roundKeys);
         
-        novoBloco = met.addRoundKey(chave2,bloco2);
-        System.out.printf("\n\n\nResultado AddRoundKey\n\n");
-        met.printMat(novoBloco);
+        met.printMat(met.retornaChaveRodada(roundKeys,4));
+        
+
         
         
-        novoBloco = met.subBytes(novoBloco);
-        System.out.printf("\n\nResultado SubBytes\n\n");
-        met.printMat(novoBloco);
-        
-        novoBloco = met.ShiftRows(novoBloco);
-        System.out.printf("\n\n\nResultado ShiftRows\n\n");
-        met.printMat(novoBloco);
-        
-        novoBloco = met.mixColumns(novoBloco);
-        System.out.printf("\n\n\nResultado MixCoumns\n\n");
-        met.printMat(novoBloco);
-        
-        int sd, sf, rt;
-        sd = 0x48;
-        sf = 0x23;
-        rt = (byte) (sd ^ sf);
-        System.out.print(Long.toString(rt,16));
         
     }
 

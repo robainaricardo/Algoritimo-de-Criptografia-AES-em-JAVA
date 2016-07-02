@@ -35,16 +35,7 @@ public class MetodosAES {
                                          {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}};
     
 
-    //bloco utilizado para testes
-    public int  bloco [][] = {{0x32,0x88,0x31,0xE0},
-                              {0x43,0x5A,0x31,0x37},
-                              {0xF6,0x30,0x98,0x07},
-                              {0xA8,0x8D,0xA2,0x34}};
     
-    public int  chave [][] = {{0x2B,0x28,0xAB,0x09},
-                              {0x7E,0xAE,0xF7,0xCF},
-                              {0x15,0xD2,0x15,0x4F},
-                              {0x16,0xA6,0x88,0x3C}};
     
     final static int[] LogTable = {
 		0,   0,  25,   1,  50,   2,  26, 198,  75, 199,  27, 104,  51, 238, 223,   3,
@@ -87,14 +78,54 @@ public class MetodosAES {
     //metodo que realiza a expanção da chave e retorna a matriz com a chave expandida!
     public int [][] ExChave(int [][] chave){
         int[][] roundKey = new int[4][44];
-        int[][] aux = new int[4][4];
-        for (int c = 0; c < 4; c++) {
-            aux = this.rotacionaPalavra(chave);
-            aux = this.subBytesPalavra(chave);
-            //tavez esses metodos não sejam aqui dentro
-            
+        int[] aux = new int[4];
+        
+        for(int l = 0; l < 4; l++){
+            for(int c = 0; c < 4; c++){
+                roundKey[l][c] = chave[l][c];
+            } 
         }
+        
+        int a = 0;
+        for(int c = 4; c < 44; c = c+4){
+            
+            for(int e = 0; e < 4; e++){
+                    aux[e] = roundKey[e][c-1];
+            }
+            
+            aux = this.rotacionaPalavra(aux);
+            aux = this.subBytesPalavra(aux);
+            
+            for (int l = 0; l < 4; l++) {
+                
+                
+               
+                
+                  roundKey[l][c] = ( aux[l] ^ (roundKey[l][c-4]) ^ (matExpKey[l][a]) ); 
+                  roundKey[l][c+1] = (roundKey[l][c]   ^ roundKey[l][c-3] ); 
+                  roundKey[l][c+2] = (roundKey[l][c+1] ^ roundKey[l][c-2]);
+                  roundKey[l][c+3] = (roundKey[l][c+2] ^ roundKey[l][c-1]);
+                //tavez esses metodos não sejam aqui dentro
+            }
+            a++;
+        }
+       
         return roundKey;
+    }
+    
+    //---------------
+    
+    public int [][] retornaChaveRodada(int [][] roundKey, int rodada){
+        int[][] aux = new int[4][4];
+        
+        for(int l = 0; l < 4; l++){
+            int a = 0;
+            for(int c = rodada; c < (rodada + 4); c++){
+                aux[l][a] = roundKey[l][c];
+                a++;
+            } 
+        }
+        return aux;
     }
     
     
@@ -180,6 +211,17 @@ public class MetodosAES {
         }
     }
     
+    //método para imprimir matrz em forma de bloco aes
+    public void printChaves(int [][] bloco){
+        for(int a = 0; a < 4; a++){
+            for(int b = 0; b < 44; b++){
+                System.out.print(Long.toString(bloco[a][b],16));
+                System.out.printf(" | ");
+            }
+            System.out.printf("\n\n");
+        }
+    }
+    
     public int retornaColuna(int x){
         int a;
         a = x & 0x0F;
@@ -193,31 +235,23 @@ public class MetodosAES {
     }
     
     //Funcionando!! Testado!
-    public int [][] rotacionaPalavra(int [][] chave){
-        int [][] aux = new int [4][4];
+    public int [] rotacionaPalavra(int [] chave){
+        int [] aux = new int [4];
         //aux = chave;
+        
         for(int l = 0; l < 4; l++){
-            for(int c = 0; c < 3; c++){
-                aux[l][c] = chave[l][c];
-            } 
+           aux[l] = chave [(l+1) % 4];
         }
-        for(int l = 0; l < 4; l++){
-           aux[l][3] = chave [(l+1) % 4][3];
-        }
+        
         return aux;
     }
     
     //FUNCIONANDO!! Testado!
-    public int [][] subBytesPalavra(int [][] chave){
-        int [][] aux = new int [4][4];
-        //aux = chave;
+    public int [] subBytesPalavra(int [] chave){
+        int [] aux = new int [4];
+        
         for(int l = 0; l < 4; l++){
-            for(int c = 0; c < 3; c++){
-                aux[l][c] = chave[l][c];
-            } 
-        }
-        for(int l = 0; l < 4; l++){
-           aux[l][3] =  (sbox[this.retornaLinha(chave[l][3])][this.retornaColuna(chave[l][3])]);
+           aux[l] =  (sbox[this.retornaLinha(chave[l])][this.retornaColuna(chave[l])]);
         }
         return aux;
     }
