@@ -18,10 +18,10 @@ public class TesteAES {
                                       {0xbe,0x2b,0x2a,0x08}};
     
     
-    public static int  bloco2 [][] =  {{0x04,0xe0,0x48,0x28},
-                                       {0x66,0xcb,0xf8,0x06},
-                                       {0x81,0x19,0xd3,0x26},
-                                       {0x7a,0x9a,0x7a,0x4c}};
+    public static int  bloco2 [][] =  {{0x32,0x88,0x31,0xe0},
+                                       {0x43,0x5a,0x31,0x37},
+                                       {0xf6,0x30,0x98,0x07},
+                                       {0x8a,0x8d,0xa2,0x34}};
             
     public static int chave [][] = {{0x2B,0x28,0xAB,0x09},
                                     {0x7E,0xAE,0xF7,0xCF},
@@ -38,15 +38,20 @@ public class TesteAES {
     
     public static void main(String[] args) {
         
+        
         MetodosAES met = new MetodosAES();
         
-                
+        /*       
         roundKeys = met.ExChave(chave);
         System.out.printf("\n\n\nResultado expChave\n\n");
         met.printChaves(roundKeys);
         
         met.printMat(met.retornaChaveRodada(roundKeys,4));
+        */
         
+        Cifra cif = new Cifra();
+        novoBloco = cif.Encriptar(bloco2, chave);
+        met.printMat(novoBloco);
 
         
         
