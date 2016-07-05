@@ -175,10 +175,10 @@ public class MetodosAES {
 	   
 	    //copy of cipherTemp[.][c]
 	    for (int c = 0; c < 4; c++){
-                tmp[0][c] = (mul(2,estado[0][c])) ^ (mul(3,estado[1][c])) ^ (mul(1,estado[2][c])) ^ (mul(1,estado[3][c]));
-                tmp[1][c] = (mul(1,estado[0][c])) ^ (mul(2,estado[1][c])) ^ (mul(3,estado[2][c])) ^ (mul(1,estado[3][c]));
-                tmp[2][c] = (mul(1,estado[0][c])) ^ (mul(1,estado[1][c])) ^ (mul(2,estado[2][c])) ^ (mul(3,estado[3][c]));
-                tmp[3][c] = (mul(3,estado[0][c])) ^ (mul(1,estado[1][c])) ^ (mul(1,estado[2][c])) ^ (mul(2,estado[3][c]));
+                tmp[0][c] = (mul(0x02,estado[0][c])) ^ (mul(0x03,estado[1][c])) ^ (mul(0x01,estado[2][c])) ^ (mul(0x01,estado[3][c]));
+                tmp[1][c] = (mul(0x01,estado[0][c])) ^ (mul(0x02,estado[1][c])) ^ (mul(0x03,estado[2][c])) ^ (mul(0x01,estado[3][c]));
+                tmp[2][c] = (mul(0x01,estado[0][c])) ^ (mul(0x01,estado[1][c])) ^ (mul(0x02,estado[2][c])) ^ (mul(0x03,estado[3][c]));
+                tmp[3][c] = (mul(0x03,estado[0][c])) ^ (mul(0x01,estado[1][c])) ^ (mul(0x01,estado[2][c])) ^ (mul(0x02,estado[3][c]));
             }
             return tmp;
 	}
@@ -256,5 +256,7 @@ public class MetodosAES {
         return aux;
     }
     
+    
+
     
 }

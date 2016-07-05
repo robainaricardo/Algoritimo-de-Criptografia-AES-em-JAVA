@@ -36,23 +36,31 @@ public class TesteAES {
     public static int [][] novoBloco = new int [4][4];
     public static int [][] roundKeys = new int [4][44];
     
+    //Variavel que altera o numero de blocos utilizada para testes
+    public static int nBloco = 1000; 
+    
     public static void main(String[] args) {
-        
+      
         
         MetodosAES met = new MetodosAES();
-        
-        /*       
-        roundKeys = met.ExChave(chave);
-        System.out.printf("\n\n\nResultado expChave\n\n");
-        met.printChaves(roundKeys);
-        
-        met.printMat(met.retornaChaveRodada(roundKeys,4));
-        */
-        
         Cifra cif = new Cifra();
-        novoBloco = cif.Encriptar(bloco2, chave);
-        met.printMat(novoBloco);
-
+        
+        //Variavel que armazena o tempo inicial da execução
+        long inicio = System.currentTimeMillis();
+        
+        for(int n = 0; n < nBloco; n++){
+            
+            novoBloco = cif.Encriptar(bloco2, chave);
+            bloco2 = novoBloco;
+            //System.out.printf("\n\nBloco %d\n\n",n);
+            //met.printMat(novoBloco);
+        }
+        
+        //Variavel que armazena o tempo inicial da execução
+        long fim = System.currentTimeMillis();
+        //Tempo médio
+        long tempoTotal = fim - inicio;
+        System.out.println("\n\nTempo TOTAL : " + tempoTotal);
         
         
         
