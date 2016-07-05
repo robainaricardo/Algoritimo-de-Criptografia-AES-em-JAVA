@@ -99,13 +99,11 @@ public class MetodosAES {
             for (int l = 0; l < 4; l++) {
                 
                 
-               
-                
                   roundKey[l][c] = ( aux[l] ^ (roundKey[l][c-4]) ^ (matExpKey[l][a]) ); 
                   roundKey[l][c+1] = (roundKey[l][c]   ^ roundKey[l][c-3] ); 
                   roundKey[l][c+2] = (roundKey[l][c+1] ^ roundKey[l][c-2]);
                   roundKey[l][c+3] = (roundKey[l][c+2] ^ roundKey[l][c-1]);
-                //tavez esses metodos não sejam aqui dentro
+                
             }
             a++;
         }
@@ -171,10 +169,9 @@ public class MetodosAES {
 	public int [][] mixColumns (int [][] estado) 
 	{
             int tmp [][] = new int [4][4];
-	    
 	   
-	    //copy of cipherTemp[.][c]
 	    for (int c = 0; c < 4; c++){
+                
                 tmp[0][c] = (mul(0x02,estado[0][c])) ^ (mul(0x03,estado[1][c])) ^ (mul(0x01,estado[2][c])) ^ (mul(0x01,estado[3][c]));
                 tmp[1][c] = (mul(0x01,estado[0][c])) ^ (mul(0x02,estado[1][c])) ^ (mul(0x03,estado[2][c])) ^ (mul(0x01,estado[3][c]));
                 tmp[2][c] = (mul(0x01,estado[0][c])) ^ (mul(0x01,estado[1][c])) ^ (mul(0x02,estado[2][c])) ^ (mul(0x03,estado[3][c]));

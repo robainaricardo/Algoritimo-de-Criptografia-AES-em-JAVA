@@ -37,24 +37,140 @@ public class TesteAES {
     public static int [][] roundKeys = new int [4][44];
     
     //Variavel que altera o numero de blocos utilizada para testes
-    public static int nBloco = 1000; 
+    public static int nBloco = 1000000000; 
     
     public static void main(String[] args) {
       
         
+
         MetodosAES met = new MetodosAES();
         Cifra cif = new Cifra();
         
         //Variavel que armazena o tempo inicial da execução
         long inicio = System.currentTimeMillis();
         
-        for(int n = 0; n < nBloco; n++){
+        new Thread() {
+            public void run() {
+                long ini = System.currentTimeMillis();
+		System.out.println("\n\n Inicio Thread 1: " + ini);
+                for(int n = 0; n < (nBloco/8); n++){
+            
+                novoBloco = cif.Encriptar(bloco, chave);
+                 bloco2 = novoBloco;
+                //System.out.printf("\n\nBloco %d\n\n",n);
+                //met.printMat(novoBloco);
+                }		
+		System.out.println("\n\n Fim Thread 1: " + (System.currentTimeMillis() - ini));		
+            }
+	}.start();
+        
+        new Thread() {
+            public void run() {
+		long ini = System.currentTimeMillis();
+		System.out.println("\n\n Inicio Thread 2: " + ini);
+                for(int n = 0; n < (nBloco/8); n++){
             
             novoBloco = cif.Encriptar(bloco2, chave);
             bloco2 = novoBloco;
             //System.out.printf("\n\nBloco %d\n\n",n);
             //met.printMat(novoBloco);
-        }
+                }		
+		System.out.println("\n\n Fim Thread 2: " + (System.currentTimeMillis() - ini));			
+            }
+	}.start();
+        
+        
+        new Thread() {
+            public void run() {
+		long ini = System.currentTimeMillis();
+		System.out.println("\n\n Inicio Thread 3: " + ini);
+                for(int n = 0; n < (nBloco/8); n++){
+            
+            novoBloco = cif.Encriptar(bloco3, chave);
+            bloco2 = novoBloco;
+            //System.out.printf("\n\nBloco %d\n\n",n);
+            //met.printMat(novoBloco);
+                }		
+		System.out.println("\n\n Fim Thread 3: " + (System.currentTimeMillis() - ini));			
+            }
+	}.start();
+        
+        new Thread() {
+            public void run() {
+		long ini = System.currentTimeMillis();
+		System.out.println("\n\n Inicio Thread 4: " + ini);
+                for(int n = 0; n < (nBloco/8); n++){
+            
+            novoBloco = cif.Encriptar(chave2, chave);
+            bloco2 = novoBloco;
+            //System.out.printf("\n\nBloco %d\n\n",n);
+            //met.printMat(novoBloco);
+                }		
+		System.out.println("\n\n Fim Thread 4: " + (System.currentTimeMillis() - ini));			
+            }
+	}.start();
+        
+        new Thread() {
+            public void run() {
+                long ini = System.currentTimeMillis();
+		System.out.println("\n\n Inicio Thread 5: " + ini);
+                for(int n = 0; n < (nBloco/8); n++){
+            
+                novoBloco = cif.Encriptar(bloco, chave);
+                 bloco2 = novoBloco;
+                //System.out.printf("\n\nBloco %d\n\n",n);
+                //met.printMat(novoBloco);
+                }		
+		System.out.println("\n\n Fim Thread 5: " + (System.currentTimeMillis() - ini));		
+            }
+	}.start();
+        
+        new Thread() {
+            public void run() {
+		long ini = System.currentTimeMillis();
+		System.out.println("\n\n Inicio Thread 6: " + ini);
+                for(int n = 0; n < (nBloco/8); n++){
+            
+            novoBloco = cif.Encriptar(bloco2, chave);
+            bloco2 = novoBloco;
+            //System.out.printf("\n\nBloco %d\n\n",n);
+            //met.printMat(novoBloco);
+                }		
+		System.out.println("\n\n Fim Thread 6: " + (System.currentTimeMillis() - ini));			
+            }
+	}.start();
+        
+        
+        new Thread() {
+            public void run() {
+		long ini = System.currentTimeMillis();
+		System.out.println("\n\n Inicio Thread 7: " + ini);
+                for(int n = 0; n < (nBloco/8); n++){
+            
+            novoBloco = cif.Encriptar(bloco2, chave);
+            bloco2 = novoBloco;
+            //System.out.printf("\n\nBloco %d\n\n",n);
+            //met.printMat(novoBloco);
+                }		
+		System.out.println("\n\n Fim Thread 7: " + (System.currentTimeMillis() - ini));			
+            }
+	}.start();
+        
+        new Thread() {
+            public void run() {
+		long ini = System.currentTimeMillis();
+		System.out.println("\n\n Inicio Thread 8: " + ini);
+                for(int n = 0; n < (nBloco/8); n++){
+            
+            novoBloco = cif.Encriptar(chave, chave);
+            bloco2 = novoBloco;
+            //System.out.printf("\n\nBloco %d\n\n",n);
+            //met.printMat(novoBloco);
+                }		
+		System.out.println("\n\n Fim Thread 8: " + (System.currentTimeMillis() - ini));			
+            }
+	}.start();
+        
         
         //Variavel que armazena o tempo inicial da execução
         long fim = System.currentTimeMillis();
